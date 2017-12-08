@@ -7,12 +7,12 @@ User_Agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, lik
 # kept movies off
 
 class seriescravings(Scraper):
-    domains = ['http://series-cravings.tv']
+    domains = ['http://series-cravings.me']
     name = "SeriesCraving"
     sources = []
 
     def __init__(self):
-        self.base_link = 'http://series-cravings.tv'
+        self.base_link = 'http://series-cravings.me'
         self.sources = []
                      
 
