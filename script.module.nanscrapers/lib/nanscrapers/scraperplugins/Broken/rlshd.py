@@ -24,7 +24,7 @@ import re,urllib,urlparse,random
 from ..common import clean_title, random_agent, clean_search, replaceHTMLCodes, get_rd_domains, filter_host
 from ..scraper import Scraper
 import requests
-import xbmc
+import xbmc,time
 
 
 class Rlshd(Scraper):
@@ -35,6 +35,7 @@ class Rlshd(Scraper):
         self.domains = ['rlshd.net']
         self.base_link = 'rlshd.net'
         self.search_link = 'http://www.rlshd.net/?s='
+        self.start_time = time.time()
 
     def scrape_movie(self, title, year, imdb, debrid=False):
         try:
@@ -157,6 +158,9 @@ class Rlshd(Scraper):
                                     url = replaceHTMLCodes(url)
                                     url = url.encode('utf-8')
                                     sources.append({'source': host, 'quality': quality, 'provider': 'Rlshd', 'url': url, 'direct': False, 'debridonly': True})
+                        end_time = time.time()
+                        total_time = end_time - self.start_time
+                        print (repr(total_time))+"<<<<<<<<<<<<<<<<<<<<<<<<<"+self.name+">>>>>>>>>>>>>>>>>>>>>>>>>total_time"            
                 except Exception as e:
                     match = re.compile('<a href="(.+?)" target="_blank">').findall(mylink)
 
@@ -171,6 +175,9 @@ class Rlshd(Scraper):
                                     except: host = 'Videomega'
 
                                     sources.append({'source': host, 'quality': quality, 'provider': 'Rlshd', 'url': url, 'direct': False, 'debridonly': True})
+                    end_time = time.time()
+                    total_time = end_time - self.start_time
+                    print (repr(total_time))+"<<<<<<<<<<<<<<<<<<<<<<<<<"+self.name+">>>>>>>>>>>>>>>>>>>>>>>>>total_time"                
 
             return sources
         except Exception as e:

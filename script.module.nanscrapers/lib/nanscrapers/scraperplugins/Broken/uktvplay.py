@@ -1,7 +1,7 @@
 import re
 import requests
 import json
-import xbmc
+import xbmc,time
 from ..scraper import Scraper
 
 class uktvplay(Scraper):
@@ -12,6 +12,7 @@ class uktvplay(Scraper):
     def __init__(self):
         self.base_link = 'https://uktvplay.uktv.co.uk'
         self.ios_link = 'http://vschedules.uktv.co.uk'
+        self.start_time = time.time()
                           
     def scrape_episode(self, title, show_year, year, season, episode, imdb, tvdb, debrid = False):
         try:
@@ -35,6 +36,9 @@ class uktvplay(Scraper):
                             brightcove=field2['brightcove_video_id']
                             playlink = 'http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId='+str(brightcove)
                             self.sources.append({'source': 'Direct Link', 'quality': 'HD', 'scraper': self.name, 'url': playlink,'direct': True})
+                    end_time = time.time()
+                    total_time = end_time - self.start_time
+                    print (repr(total_time))+"<<<<<<<<<<<<<<<<<<<<<<<<<"+self.name+">>>>>>>>>>>>>>>>>>>>>>>>>total_time"        
                             
             return self.sources
         except Exception as e:

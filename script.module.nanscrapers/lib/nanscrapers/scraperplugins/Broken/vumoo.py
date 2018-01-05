@@ -1,6 +1,6 @@
 import re
 import requests
-import xbmc
+import xbmc,time
 import urlparse
 from ..scraper import Scraper
 from ..common import clean_title, random_agent, clean_search
@@ -16,6 +16,7 @@ class vumoo(Scraper):
         self.base_link = 'http://vumoo.li'
         self.goog = 'https://www.google.co.uk'
         self.scraper = cfscrape.create_scraper()
+        self.start_time = time.time()
 
     def scrape_episode(self, title, show_year, year, season, episode, imdb, tvdb, debrid = False):
         try:
@@ -98,6 +99,9 @@ class vumoo(Scraper):
                                             res ='DVD'
                                     except: res = 'DVD'
                                     self.sources.append({'source': 'Openload', 'quality': res, 'scraper': self.name, 'url': fin_link,'direct': False})
+                                    end_time = time.time()
+                                    total_time = end_time - self.start_time
+                                    print (repr(total_time))+"<<<<<<<<<<<<<<<<<<<<<<<<<"+self.name+">>>>>>>>>>>>>>>>>>>>>>>>>total_time"            
                             elif 'api' in fin_link:
                                 if '=1080' in fin_link:
                                     res='1080p'
@@ -106,6 +110,9 @@ class vumoo(Scraper):
                                 else: res='SD'
                                 fin_link = self.base_link+fin_link
                                 self.sources.append({'source': 'GoogleLink', 'quality': res, 'scraper': self.name, 'url': fin_link,'direct': True})
+                                end_time = time.time()
+                                total_time = end_time - self.start_time
+                                print (repr(total_time))+"<<<<<<<<<<<<<<<<<<<<<<<<<"+self.name+">>>>>>>>>>>>>>>>>>>>>>>>>total_time"
 
            
         except:
@@ -127,6 +134,9 @@ class vumoo(Scraper):
                 for url2,name2 in regex2:
                     url2=self.base_link+url2.replace('\\','')
                     self.sources.append({'source': 'GoogleLink', 'quality': name2, 'scraper': self.name, 'url': url2,'direct': True})
+            end_time = time.time()
+            total_time = end_time - self.start_time
+            print (repr(total_time))+"<<<<<<<<<<<<<<<<<<<<<<<<<"+self.name+">>>>>>>>>>>>>>>>>>>>>>>>>total_time"        
 
             OLOAD = re.compile("var openloadLink = '(.+?)'",re.DOTALL).findall(OPEN)
             for url in OLOAD:
@@ -141,6 +151,9 @@ class vumoo(Scraper):
                         res ='DVD'
                 except: res = 'DVD'
                 self.sources.append({'source': 'Openload', 'quality': res, 'scraper': self.name, 'url': url,'direct': False})
+            end_time = time.time()
+            total_time = end_time - self.start_time
+            print (repr(total_time))+"<<<<<<<<<<<<<<<<<<<<<<<<<"+self.name+">>>>>>>>>>>>>>>>>>>>>>>>>total_time"    
 
            
         except:
