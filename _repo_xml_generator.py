@@ -53,11 +53,14 @@ class Generator:
             zip.close()
             
 # Copy over the icon, fanart and addon.xml to the zip directory
-            copyfiles = ['icon.png','fanart.jpg','addon.xml']
+            copyfiles = ['icon.png','fanart.jpg']
             files = os.listdir(addon_id)
             for file in files:
                 if file in copyfiles:
                     shutil.copy(os.path.join(addon_id,file),addon_folder)
+            changelog = os.path.join(addon_id,'changelog.txt')
+            if os.path.exists(changelog):
+                shutil.copy(changelog,os.path.join(addon_folder,'changelog-%s.txt' % version))
 
 # Remove any instances of pyc or pyo files
     def _remove_binaries(self):
